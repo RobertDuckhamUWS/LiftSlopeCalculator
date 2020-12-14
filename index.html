@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lift Curve Generator</title>
+  <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+</head>
+<body>
+  <script>
+   function generate(){
+      var alphaLiftZero = document.getElementById("alphaLiftZero").value;
+	  var a0 = document.getElementById("a0").value;
+	  var wingWidth = document.getElementById("wingWidth").value;
+	  var wingLength = document.getElementById("wingLenght").value;
+	  var machNumber = document.getElementById("machNumber").value;
+    var alphaOne = document.getElementById("alphaOne").value;
+    var alphaTwo = document.getElementById("alphaTwo").value;
+    var effFactor = document.getElementById("effFactor").value;
+  
+  var AR = Math.pow(wingLength,2) / (wingLength * wingWidth);
+      function plotGraph(){
+        TESTER = document.getElementById('tester');
+        var x = [];
+        var y = [];
+        for (i = alphaOne;i < alphaTwo; i++){
+            x.push(i)
+            y.push(a*(i-alphaLiftZero));
+
+        }
+     
+        Plotly.newPlot( TESTER, [{
+        x: x,
+        y: y }], {
+        margin: { t: 0 } } );
+      }
+      
+      if (machNumber > 0.8 || machNumber < 0){
+        alert("Mach number out of range");
+      }
+
+      else if(effFactor > 1|| effFactor < 0){
+        alert("Efficency Factor is out of range");
+      }
+      else if(alphaOne < -90 || alphaOne > 90){
+        alert("Alpha one is out of range");
+      }
+      else if (alphaTwo < -90 || alphaTwo > 90){
+        alert("Alpha two is out of range");
+      }
+      else if(wingLength<0){
+        alert("Wing Length is out of range");
+      }
+      else if(wingWidth<0){
+        alert("Wing Width is out of range");
+      }
+      else if (a0<0){
+        alert("a0 is out of range");
+      }
+      else if(alphaLiftZero>90||alphaLiftZero<-90){
+        alert("Alpha Lift Zero is out of range")
+      }
+      else{
+        if (machNumber < 0.3 && AR > 4){
+        
+        a0 = a0*(360/(Math.PI*2));
+        a = a0/(1+a0/(Math.PI*effFactor*AR));
+        a = a *(2*(Math.PI/360));
+        plotGraph()
+      }
+      if (machNumber > 0.3 && AR > 4){
+        
+        a0 = a0*(360/(Math.PI*2));
+        a = a0/(Math.sqrt(1-(Math.pow(machNumber,2)))+a0/(Math.PI*effFactor*AR));
+        a = a *(2*(Math.PI/360));
+        
+        
+        plotGraph()
+      }
+      if (machNumber < 0.3 && AR < 4){
+        alert("machNumber < 0.3 && AR < 4")
+        a0 = a0*(360/(Math.PI*2));
+        a = a0/((Math.sqrt(1+Math.pow((a0/(Math.PI*effFactor*AR)),2)))+(a0/(Math.PI*effFactor*AR)));
+        a = a *(2*(Math.PI/360));
+        plotGraph()
+      }
+      if (machNumber > 0.3 && AR < 4){
+        
+        a0 = a0*(360/(Math.PI*2));
+        a = a0/((Math.sqrt(1-(Math.pow(machNumber,2))+Math.pow(a0/(Math.PI*effFactor*AR),2))) +a0/(Math.PI*effFactor*AR));
+        a = a *(2*(Math.PI/360));
+        plotGraph()
+      }
+      }
+      
+      
+      }
+</script>
+<style>
+  label{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  input{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  body{
+    background-image: linear-gradient(to right,rgba(4, 247, 255, 0.308),rgba(0, 153, 255, 0.5))
+  }
+  h2{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  #generate{
+    background-color: rgb(0, 217, 255);
+            border:none;
+            padding: 10px 15px;
+            text-align:center;
+            text-decoration: none;
+            display:inline-block;
+            font-size: 16px;
+            border-radius: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+  }
+  #tester{
+    border-radius: 15px;
+    position: relative;
+    left:15px;
+
+  }
+  #container{
+    display:flex;
+  }
+
+</style>
+<h1>
+  Lift Curve Generator
+</h1>
+<h2 id="infomation">
+  This is a basic web application written in HTML, CSS and Javascript. 
+  Once the variables in the form below have been input and the generate button 
+  selected, a lift coefficient vs angle of attack graph will be generated.
+  This application is intended as an educational tool, to easily demonstrate
+  the affect of a wing's aspect ratio, Mach number and efficiency factor on the 
+  resultant lift coefficient at different angles of attack. 
+  Developed by Robert Duckham, an Aircraft Engineering student at UWS. 
+
+</h2>
+<div id="container">
+<div id=mainDiv>
+<label for="alphaLiftZero">Alpha Lift Zero:</label><br>
+<input type="text" id="alphaLiftZero" name="alphaLiftZero" value=-2><br>
+
+<label for="a0">a0:</label><br>
+<input type="text" id="a0" name="a0" value=0.103><br>
+
+<label for="wingWidth">Wing width(m):</label><br>
+<input type="text" id="wingWidth" name="wingWidth" value=2><br>
+
+<label for="wingLenght">Wing Length(m):</label><br>
+<input type="text" id="wingLenght" name="wingLenght" value=12><br>
+
+<label for="machNumber">Mach Number:</label><br>
+<input type="text" id="machNumber" name="machNumber" value=0.22><br>
+
+<label for="alphaOne">Alpha One (degrees):</label><br>
+<input type="text" id="alphaOne" name="alphaOne" value=-10><br>
+
+<label for="alphaTwo">Alpha Two:</label><br>
+<input type="text" id="alphaTwo" name="alphaTwo" value=20><br>
+
+<label for="effFactor">Efficiency Factor:</label><br>
+<input type="text" id="effFactor" name="effFactor" value=0.95><br>
+
+<input type="button" id=generate value="Generate" onclick="generate()">
+</div>
+<div id="tester" style="width:800px;height:450px;"></div>
+</div>
+</body>
+</html>
