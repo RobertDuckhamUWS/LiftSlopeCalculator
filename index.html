@@ -6,14 +6,14 @@
   <title>Lift Curve Generator</title>
   <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
 </head>
-<body>
+
   <script>
    function generate(){
     var alphaLiftZero = document.getElementById("alphaLiftZero").value;
-    var a0 = document.getElementById("a0").value;
-    var wingWidth = document.getElementById("wingWidth").value;
-    var wingLength = document.getElementById("wingLenght").value;                                   
-    var machNumber = document.getElementById("machNumber").value;
+	  var a0 = document.getElementById("a0").value;
+	  var wingWidth = document.getElementById("wingWidth").value;
+	  var wingLength = document.getElementById("wingLenght").value;
+	  var machNumber = document.getElementById("machNumber").value;
     var alphaOne = document.getElementById("alphaOne").value;
     var alphaTwo = document.getElementById("alphaTwo").value;
     var effFactor = document.getElementById("effFactor").value;
@@ -97,31 +97,47 @@
       }
 </script>
 <style>
+    #borderDiv{
+    background: linear-gradient(to right,rgb(0, 26, 255),rgb(4, 255, 255)); 
+    width: 100%; 
+    height:50px;
+    text-align: center;
+    color:white;
+    font-size:40px;
+    font-family:sans-serif;
+            
+           
+        }
   label{
     font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
+    color:rgb(83, 83, 83);
   }
   input{
     font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
+    color:rgb(83, 83, 83);
   }
   body{
-    background-image: linear-gradient(to right,rgba(4, 247, 255, 0.308),rgba(0, 153, 255, 0.5))
+    margin:0px;
   }
   h2{
     font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
+    color:rgb(83, 83, 83);
+    margin:10px;
   }
   #generate{
     background-color: rgb(0, 217, 255);
-            border:none;
-            padding: 10px 15px;
-            text-align:center;
-            text-decoration: none;
-            display:inline-block;
-            font-size: 16px;
-            border-radius: 15px;
-            font-family: Arial, Helvetica, sans-serif;
+    color:white;
+    border:none;
+    padding: 10px 15px;
+    text-align:center;
+    text-decoration: none;
+    display:inline-block;
+    font-size: 16px;
+    border-radius: 15px;
+    font-family: Arial, Helvetica, sans-serif;
   }
   #tester{
     border-radius: 15px;
@@ -129,16 +145,21 @@
     left:15px;
 
   }
+  #mainDiv{
+    margin:10px;
+  }
   #container{
     display:flex;
   }
 
+
 </style>
-<h1>
-  Lift Curve Generator
-</h1>
+<div id="borderDiv">
+  Lift Slope Generator
+</div>
+<body>
 <h2 id="infomation">
-  This is a basic web application written in HTML, CSS and Javascript. 
+  This is a web application written in HTML, CSS and Javascript. 
   Once the variables in the form below have been input and the generate button 
   selected, a lift coefficient vs angle of attack graph will be generated.
   This application is intended as an educational tool, to easily demonstrate
